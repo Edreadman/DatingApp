@@ -1,7 +1,6 @@
 <!-- Topbar -->
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-  <a class="navbar-brand" href="#">Dating App</a>
-  <a class="" href="#" (click)="logout()">Cerrar Sesión</a>
+  <a class="navbar-brand" [routerLink]="['/home']">Dating App</a>
   <!-- Sidebar Toggle (Topbar) -->
 
 
@@ -18,6 +17,15 @@
     </div>
   </form>
 
+  <ul *ngIf="loggedIn()" class="navbar-nav ml-auto">
+    <li class="nav-item" routerLinkActive="active">
+      <a class="nav-link" [routerLink]="['/members']"><i class="fas fa-fire-alt text-danger"></i> &nbsp;Matches</a>
+    </li>
+    <li class="nav-item" routerLinkActive="active">
+      <a class="nav-link" [routerLink]="['/lists']"><i class="fas fa-th-list text-secondary"></i> &nbsp; Listas</a>
+    </li>
+  </ul>
+
   <!-- Topbar Navbar -->
   <ul class="navbar-nav">
     <div class="topbar-divider d-none d-sm-block"></div>
@@ -30,26 +38,26 @@
       </a>
     </li>
 
-    <li *ngIf="loggedIn()" class="nav-item dropdown no-arrow">
-      <a class="nav-link dropdown-toggle" href="#">
-        <span class="mr-2 d-none d-lg-inline text-gray-600 small">Bienvenido</span>
+    <li *ngIf="loggedIn()" class="nav-item dropdown no-arrow" dropdown>
+      <a class="nav-link dropdown-toggle" dropdownToggle>
+        <span class="mr-2 d-none d-lg-inline text-gray-600 small"> {{ authService.decodedToken?.unique_name | titlecase }}</span>
         <img class="img-profile rounded-circle" src="https://cdn4.iconfinder.com/data/icons/user-avatar-flat-icons/512/User_Avatar-04-512.png">
       </a>
-      <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in">
+      <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" *dropdownMenu>
         <a class="dropdown-item" href="#">
           <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-          Profile
+          Perfil
         </a>
         <a class="dropdown-item" href="#">
           <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-          Settings
+          Ajustes
         </a>
-        <a class="dropdown-item" href="#">
-          <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-          Activity Log
+        <a class="dropdown-item" [routerLink]="['/messages']">
+          <i class="fas fa-envelope fa-sm fa-fw mr-2 text-gray-400"></i>
+          Mensajes
         </a>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" (click)="logout()">
+        <a class="dropdown-item" data-toggle="modal" data-target="#logoutModal" (click)="logout()">
           <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
           Logout
         </a>

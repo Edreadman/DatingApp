@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import { Ng2IzitoastService } from 'ng2-izitoast';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav',
@@ -9,7 +10,7 @@ import { Ng2IzitoastService } from 'ng2-izitoast';
 })
 export class NavComponent implements OnInit {
   model: any = {};
-  constructor(private authService: AuthService, public iziToast: Ng2IzitoastService) { }
+  constructor(public authService: AuthService, public iziToast: Ng2IzitoastService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -25,12 +26,13 @@ export class NavComponent implements OnInit {
           title: 'Ha ocurrido un problema.',
           message: error
         });
+      }, () => {
+        this.router.navigate(['/members']);
       });
     }
 
   loggedIn() {
-    const token = localStorage.getItem('token');
-    return !!token;
+    return this.authService.loggedIn();
   }
 
   logout() {
@@ -39,5 +41,6 @@ export class NavComponent implements OnInit {
       title: 'Hasta luego!',
       message: 'Ha cerrrado sesión.'
     });
+    this.router.navigate(['/home']);
   }
 }
