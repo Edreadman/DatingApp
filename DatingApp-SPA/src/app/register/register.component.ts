@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
+import { Ng2IzitoastService } from 'ng2-izitoast';
 
 @Component({
   selector: 'app-register',
@@ -7,23 +8,28 @@ import { AuthService } from '../_services/auth.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  @Output() cancerlRegister = new EventEmitter();
+  @Output() cancelRegister = new EventEmitter();
   model: any = {};
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, public iziToast: Ng2IzitoastService) { }
 
   ngOnInit() {
   }
 
   register() {
     this.authService.register(this.model).subscribe(() => {
-      console.log('Se ha registrado correctamente.');
+      this.iziToast.success({
+        title: 'Bienvenido!',
+        message: 'Se ha registrado correctamente'
+      });
     }, error => {
-      console.log(error);
+      this.iziToast.error({
+        title: 'Ha ocurrido un problema.',
+        message: error
+      });
     });
   }
 
   cancel() {
-    this.cancerlRegister.emit(false);
-    console.log('Cancelado');
+    this.cancelRegister.emit(false);
   }
 }

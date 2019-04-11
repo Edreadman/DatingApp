@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
+import { Ng2IzitoastService } from 'ng2-izitoast';
 
 @Component({
   selector: 'app-nav',
@@ -8,16 +9,22 @@ import { AuthService } from '../_services/auth.service';
 })
 export class NavComponent implements OnInit {
   model: any = {};
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, public iziToast: Ng2IzitoastService) { }
 
   ngOnInit() {
   }
 
   login() {
     this.authService.login(this.model).subscribe(next => {
-      console.log('Sesión iniciada');
+      this.iziToast.success({
+        title: 'Bienvenido!',
+        message: 'Ha iniciado sesión.'
+      });
       }, error => {
-        console.log(error);
+        this.iziToast.error({
+          title: 'Ha ocurrido un problema.',
+          message: error
+        });
       });
     }
 
@@ -28,6 +35,9 @@ export class NavComponent implements OnInit {
 
   logout() {
     localStorage.removeItem('token');
-    console.log('Sesión terminada.');
+    this.iziToast.warning({
+      title: 'Hasta luego!',
+      message: 'Ha cerrrado sesión.'
+    });
   }
 }

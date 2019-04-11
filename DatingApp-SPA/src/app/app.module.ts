@@ -11,6 +11,7 @@ import { AuthService } from './_services/auth.service';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { ErrorInterceptorProvide } from './_services/error.interceptor';
+import { Ng2IziToastModule } from 'ng2-izitoast';
 
 @NgModule({
    declarations: [
@@ -22,7 +23,8 @@ import { ErrorInterceptorProvide } from './_services/error.interceptor';
    imports: [
       BrowserModule,
       HttpClientModule,
-      FormsModule
+      FormsModule,
+      Ng2IziToastModule
    ],
    providers: [
       AuthService,
